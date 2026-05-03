@@ -4,7 +4,7 @@
 
 # GXW3Boost
 
-**GXWorks3（32bit）の起動を高速化するツール**
+**MELSOFT GXWorks3の起動を安全に最適化・高速化するタスクトレイアプリ**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-blue)](https://github.com/mokouliszt/GXW3Boost)
