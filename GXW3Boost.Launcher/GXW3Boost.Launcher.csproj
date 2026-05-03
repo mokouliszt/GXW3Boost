@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>GXW3Boost.Launcher</AssemblyName>
+    <RootNamespace>GXW3Boost.Launcher</RootNamespace>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <!-- タスクバー・エクスプローラーに表示されるアプリアイコン -->
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GXW3Boost.Core\GXW3Boost.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- EmbeddedResource にしてコード側から Icon.ExtractAssociatedIcon() で読み込める -->
+    <EmbeddedResource Include="Resources\app.ico" />
+  </ItemGroup>
+</Project>

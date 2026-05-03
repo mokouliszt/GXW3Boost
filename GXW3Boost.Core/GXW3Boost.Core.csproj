@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>GXW3Boost.Core</AssemblyName>
+    <RootNamespace>GXW3Boost.Core</RootNamespace>
+  </PropertyGroup>
+</Project>
