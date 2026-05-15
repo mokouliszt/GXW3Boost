@@ -16,3 +16,5 @@ packages/
 # OS
 Thumbs.db
 .DS_Store
+
+*.csproj.lscache
