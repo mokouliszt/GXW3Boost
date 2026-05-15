@@ -3,7 +3,7 @@
 ; ============================================================
 
 #define AppName      "GXW3Boost"
-#define AppVersion   "1.0.0"
+#define AppVersion   "1.0.1"
 #define AppPublisher "mokouliszt"
 #define AppURL       "https://github.com/mokouliszt/GXW3Boost"
 #define LauncherExe  "GXW3Boost.Launcher.exe"

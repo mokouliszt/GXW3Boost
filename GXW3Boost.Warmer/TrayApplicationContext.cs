@@ -143,8 +143,11 @@ public class TrayApplicationContext : ApplicationContext
                 _notifyIcon.ShowBalloonTip(2000, "GXW3Boost",
                     "DLLキャッシュのウォームアップを開始しました...", ToolTipIcon.Info);
 
+            // 常駐 Warmer は時間に余裕があるので全 tier をウォームする
             var warmer = new DllPrewarmer(gxPath);
-            var result = await warmer.WarmAsync(ct: _warmingCts.Token);
+            var result = await warmer.WarmAsync(
+                maxTier: WarmTier.Background,
+                ct: _warmingCts.Token);
 
             if (!silent)
                 _notifyIcon.ShowBalloonTip(3000, "GXW3Boost",
@@ -252,7 +255,7 @@ public class TrayApplicationContext : ApplicationContext
     private void ShowAbout()
     {
         MessageBox.Show(
-            "GXW3Boost v1.0.0\n\n" +
+            "GXW3Boost v1.0.1\n\n" +
             "GXWorks3(32bit)の起動を高速化するOSSツールです。\n" +
             "GXWorks3本体には一切変更を加えません。\n\n" +
             "GitHub: https://github.com/mokouliszt/GXW3Boost",

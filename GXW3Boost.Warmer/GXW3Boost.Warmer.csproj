@@ -8,6 +8,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>GXW3Boost.Warmer</AssemblyName>
     <RootNamespace>GXW3Boost.Warmer</RootNamespace>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Product>GXW3Boost</Product>
+    <Company>mokouliszt</Company>
+    <Copyright>Copyright © mokouliszt</Copyright>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
