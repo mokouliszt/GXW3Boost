@@ -16,3 +16,8 @@ packages/
 # OS
 Thumbs.db
 .DS_Store
+
+*.csproj.lscache
+
+# Local profiling artifacts (do not publish)
+manifest/

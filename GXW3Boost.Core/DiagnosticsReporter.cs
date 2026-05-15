@@ -46,7 +46,7 @@ public class DiagnosticsReporter
                 "GXWorks3の更新やインストーラーにより関連付けが変更された可能性があります。トレイアイコンから再設定できます。"));
         }
 
-        // 3. 依存DLLの解析状況
+        // 3. 依存DLL（PE-import）の解析状況
         if (gxPath != null)
         {
             var dlls = await Task.Run(() => PeImportParser.GetImportedDlls(gxPath), ct);
@@ -54,20 +54,74 @@ public class DiagnosticsReporter
             {
                 issues.Add(new DiagnosticsIssue(
                     Severity.Info,
-                    $"依存DLL を {dlls.Count} 件検出しました",
-                    "ウォームアップ対象として認識されています。"));
+                    $"PE インポート DLL を {dlls.Count} 件検出しました",
+                    "GXW3.exe が直接依存する DLL です。"));
             }
             else
             {
                 issues.Add(new DiagnosticsIssue(
                     Severity.Warning,
-                    "依存DLL を解析できませんでした",
-                    "GXW3.exeの読み取りに失敗した可能性があります。ウォームアップ効果が限定的になります。"));
+                    "PE インポート DLL を解析できませんでした",
+                    "GXW3.exeの読み取りに失敗した可能性があります。"));
+            }
+
+            // 4. WarmManifest によるサブディレクトリ列挙
+            var gppw3Dir = Path.GetDirectoryName(gxPath) ?? "";
+            var melsoftDir = GxWorks3Locator.FindMelsoftDir();
+            var targets = await Task.Run(
+                () => WarmManifest.Enumerate(gppw3Dir, melsoftDir), ct);
+
+            int t1 = 0, t2 = 0, t3 = 0;
+            long b1 = 0, b2 = 0, b3 = 0;
+            foreach (var t in targets)
+            {
+                long size = 0;
+                try { size = new FileInfo(t.Path).Length; } catch { /* 取れなくても無視 */ }
+
+                switch (t.Tier)
+                {
+                    case WarmTier.Critical:   t1++; b1 += size; break;
+                    case WarmTier.Essential:  t2++; b2 += size; break;
+                    case WarmTier.Background: t3++; b3 += size; break;
+                }
+            }
+
+            if (targets.Count > 0)
+            {
+                issues.Add(new DiagnosticsIssue(
+                    Severity.Info,
+                    $"ウォーム対象を {targets.Count} 件列挙しました",
+                    $"Tier1(Critical)={t1}件 {FormatBytes(b1)} / " +
+                    $"Tier2(Essential)={t2}件 {FormatBytes(b2)} / " +
+                    $"Tier3(Background)={t3}件 {FormatBytes(b3)}"));
+            }
+            else
+            {
+                issues.Add(new DiagnosticsIssue(
+                    Severity.Warning,
+                    "ウォーム対象が 0 件です",
+                    "GXWorks3 のインストールディレクトリ構成が想定外の可能性があります。"));
+            }
+
+            if (melsoftDir == null)
+            {
+                issues.Add(new DiagnosticsIssue(
+                    Severity.Warning,
+                    "MELSOFT ルートディレクトリが取得できません",
+                    "Easysocket / MSF 配下のファイルがウォーム対象になりません。"));
             }
         }
 
         sw.Stop();
         return new DiagnosticsReport(DateTime.Now, gxPath, issues, sw.Elapsed);
+    }
+
+    private static string FormatBytes(long bytes)
+    {
+        if (bytes < 1024) return $"{bytes} B";
+        if (bytes < 1024 * 1024) return $"{bytes / 1024.0:F1} KB";
+        if (bytes < 1024L * 1024 * 1024) return $"{bytes / (1024.0 * 1024):F1} MB";
+        return $"{bytes / (1024.0 * 1024 * 1024):F2} GB";
     }
 }
 

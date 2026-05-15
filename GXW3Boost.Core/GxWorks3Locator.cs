@@ -77,11 +77,24 @@ public static class GxWorks3Locator
     }
 
     /// <summary>
-    /// GXW3.exeが存在するディレクトリを返します。
+    /// GXW3.exeが存在するディレクトリ（通常は ...\MELSOFT\GPPW3）を返します。
     /// </summary>
     public static string? FindGxWorks3Dir()
     {
         var exe = FindGxWorks3Exe();
         return exe == null ? null : Path.GetDirectoryName(exe);
+    }
+
+    /// <summary>
+    /// MELSOFT ルートディレクトリ（GPPW3 の親、Easysocket や MSF と並ぶ階層）を返します。
+    /// 通常は "...\MELSOFT"。検出できない場合は null。
+    /// </summary>
+    public static string? FindMelsoftDir()
+    {
+        var gppw3Dir = FindGxWorks3Dir();
+        if (string.IsNullOrEmpty(gppw3Dir)) return null;
+
+        var parent = Path.GetDirectoryName(gppw3Dir);
+        return string.IsNullOrEmpty(parent) ? null : parent;
     }
 }

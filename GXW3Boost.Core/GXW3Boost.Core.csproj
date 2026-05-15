@@ -6,5 +6,11 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>GXW3Boost.Core</AssemblyName>
     <RootNamespace>GXW3Boost.Core</RootNamespace>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Product>GXW3Boost</Product>
+    <Company>mokouliszt</Company>
+    <Copyright>Copyright © mokouliszt</Copyright>
   </PropertyGroup>
 </Project>

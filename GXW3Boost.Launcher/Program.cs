@@ -40,12 +40,14 @@ if (gxPath == null)
 
 // DLLウォームアップを非同期で開始（完了を待たずに GXWorks3 を起動）
 // ウォームアップが途中でも GXWorks3 はそのまま動く
+// Launcher 経由は時間制約があるため Tier1+2 (Critical+Essential) まで。
+// Tier3 (Background) は常駐 Warmer が事前に温めている前提。
 _ = Task.Run(async () =>
 {
     try
     {
         var warmer = new DllPrewarmer(gxPath);
-        await warmer.WarmAsync();
+        await warmer.WarmAsync(maxTier: WarmTier.Essential);
     }
     catch
     {
